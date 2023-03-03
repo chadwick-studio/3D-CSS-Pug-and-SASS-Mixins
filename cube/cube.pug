@@ -1,0 +1,9 @@
+mixin cuboid(className)
+  div(class=className)
+    - let s = 0
+    while s < 6
+      div(class=`${className}__side`)
+      - s++
+.scene
+  .plane
+    +cuboid('cuboid--1')

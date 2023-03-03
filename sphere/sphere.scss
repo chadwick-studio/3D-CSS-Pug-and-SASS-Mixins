@@ -1,0 +1,102 @@
+/* Based off code from https://codepen.io/scriptraccoon/pen/BamrmYK */
+
+@use "sass:list";
+@use "sass:math";
+
+$perspective: 1000px;
+@mixin sphere($size, $latitude-longitude-count) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  .longitudes,
+  .latitudes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .longitude,
+  .latitude {
+    border-radius: 50%;
+    border: 5px solid;
+    aspect-ratio: 1 / 1;
+  }
+  .longitude {
+    border-color: #0f0a;
+    width: calc(#{$size} * 1vmin);
+  }
+  .latitude {
+    border-color: #0ffa;
+  }
+  @for $i from 0 through $latitude-longitude-count {
+    
+    //longitude
+    .longitude:nth-child(#{$i + 1}) {
+      transform: rotateY(#{$i / $latitude-longitude-count * 180}deg);
+    }
+    
+    //latitude
+    $angle: ($i / $latitude-longitude-count - 0.5) * math.$pi;
+    $offset: math.sin($angle) * 0.5 * $size * 1vmin;
+    $dim: math.cos($angle) * $size * 1vmin;
+    .latitude:nth-child(#{$i + 1}) {
+      width: $dim;
+      transform: translateY($offset) rotateX(90deg);
+  }
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: black;
+  color: #fff;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+.scene {
+  height: 100vh;
+  width: 100vw;
+  perspective: $perspective;
+  transform-style: preserve-3d;
+  display: grid;
+  place-items: center;
+  transition: perspective 1s ease-in-out;
+  pointer-events: none;
+  z-index: 0;
+  * {
+    transform-style: preserve-3d;
+    position: absolute;
+  }
+}
+
+  @keyframes rotate-around {
+    0% {
+      transform: rotateX(-20deg) rotateY(0deg);
+    }
+    10% {
+      transform: rotateX(-20deg) rotateY(36deg);
+    }
+    50% {
+      transform: rotateX(-70deg) rotateY(180deg);
+    }
+    60% {
+      transform: rotateX(-70deg) rotateY(216deg);
+    }
+    100% {
+      transform: rotateX(-20deg) rotateY(360deg);
+    }
+  }
+
+.sphere {
+  animation: rotate-around 40s linear infinite;
+}
+
+.sphere {
+  @include sphere(100, 18);
+}

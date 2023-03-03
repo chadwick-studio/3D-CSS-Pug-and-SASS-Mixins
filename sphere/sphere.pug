@@ -1,0 +1,10 @@
+mixin sphere(className, latitudeLongitudeCount)
+  div(class=className)
+    .longitudes
+      - for(let i = 0; i < latitudeLongitudeCount; i++)
+        .longitude
+    .latitudes
+      - for(let i = 0; i < latitudeLongitudeCount; i++)
+        .latitude
+.scene
+  +sphere('sphere', 18)

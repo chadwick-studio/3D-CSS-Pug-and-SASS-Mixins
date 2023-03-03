@@ -1,0 +1,113 @@
+body {
+  background-color: black;
+}
+
+.scene {
+  --perspective: 10000;
+  perspective: calc(var(--perspective) * 1px);
+  transform-style: preserve-3d;
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  place-items: center;
+  * {
+    transform-style: preserve-3d;
+  }
+}
+
+.plane {
+  --height: 100;
+  --width: 100;
+  --rotateX: -20;
+  --rotateY: -15;
+  transform-style: preserve-3d;
+  background-color: gray;
+  height: calc(var(--height) * 1vmin);
+  width: calc(var(--width) * 1vmin);
+  transform: rotateX(calc(var(--rotateX) * 1deg)) rotateY(calc(var(--rotateY) * 1deg)) rotateX(90deg)
+    translate3d(0, 0, 0);
+}
+
+@mixin cuboid(
+  $width,
+  $height,
+  $depth,
+  $rotateX: 0,
+  $rotateY: 0,
+  $rotateZ: 0,
+  $x: 0,
+  $y: 0,
+  $z: 0
+) {
+  transform-style: preserve-3d;
+  height: calc(#{$depth} * 1vmin);
+  width: calc(#{$width} * 1vmin);
+  position: absolute;
+  transform: translate3d(
+      calc(#{$x} * 1vmin),
+      calc(#{$y} * 1vmin),
+      calc(#{$z} * 1vmin)
+    )
+    rotateX(calc(#{$rotateX} * 1deg)) rotateY(calc(#{$rotateY} * 1deg))
+    rotateZ(calc(#{$rotateZ} * 1deg));
+
+  @for $i from 1 through 6 {
+    div:nth-of-type(#{$i}) {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+    }
+    @if $i <= 2 {
+      div:nth-of-type(#{$i}) {
+        height: calc(#{$height} * 1vmin);
+        width: 100%;
+        transform-origin: 50% 50%;
+      }
+    } @else if $i >= 5 {
+      div:nth-of-type(#{$i}) {
+        height: calc(#{$depth} * 1vmin);
+        width: calc(#{$width} * 1vmin);
+      }
+    } @else {
+      div:nth-of-type(#{$i}) {
+        height: calc(#{$height} * 1vmin);
+        width: calc(#{$depth} * 1vmin);
+      }
+    }
+  }
+  div {
+    &:nth-of-type(1) {
+      transform: translate(-50%, -50%) rotateX(-90deg)
+        translate3d(0, 0, calc((#{$depth} / 2) * 1vmin));
+    }
+    &:nth-of-type(2) {
+      transform: translate(-50%, -50%) rotateX(-90deg) rotateY(180deg)
+        translate3d(0, 0, calc((#{$depth} / 2) * 1vmin));
+    }
+    &:nth-of-type(3) {
+      transform: translate(-50%, -50%) rotateX(-90deg) rotateY(90deg)
+        translate3d(0, 0, calc((#{$width} / 2) * 1vmin));
+    }
+    &:nth-of-type(4) {
+      transform: translate(-50%, -50%) rotateX(-90deg) rotateY(-90deg)
+        translate3d(0, 0, calc((#{$width} / 2) * 1vmin));
+    }
+    &:nth-of-type(5) {
+      transform: translate(-50%, -50%)
+        translate3d(0, 0, calc((#{$height} / 2) * 1vmin));
+    }
+    &:nth-of-type(6) {
+      transform: translate(-50%, -50%)
+        translate3d(0, 0, calc((#{$height} / 2) * -1vmin)) rotateX(180deg);
+    }
+  }
+}
+
+.cuboid--1 {
+  @include cuboid(30, 30, 30, 0, 0, 0, 35, 35, 15);
+  &__side {
+    background-color: rgba(255 255 255 / 0.5);
+    outline: 1px solid black;
+  }
+}
+

@@ -1,7 +1,3 @@
-body {
-  background-color: black;
-}
-
 .scene {
   --perspective: 10000;
   perspective: calc(var(--perspective) * 1px);

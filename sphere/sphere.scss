@@ -46,19 +46,6 @@ $perspective: 1000px;
   }
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background: black;
-  color: #fff;
-  overflow: hidden;
-  min-height: 100vh;
-}
-
 .scene {
   height: 100vh;
   width: 100vw;
@@ -73,28 +60,6 @@ body {
     transform-style: preserve-3d;
     position: absolute;
   }
-}
-
-  @keyframes rotate-around {
-    0% {
-      transform: rotateX(-20deg) rotateY(0deg);
-    }
-    10% {
-      transform: rotateX(-20deg) rotateY(36deg);
-    }
-    50% {
-      transform: rotateX(-70deg) rotateY(180deg);
-    }
-    60% {
-      transform: rotateX(-70deg) rotateY(216deg);
-    }
-    100% {
-      transform: rotateX(-20deg) rotateY(360deg);
-    }
-  }
-
-.sphere {
-  animation: rotate-around 40s linear infinite;
 }
 
 .sphere {
